@@ -1,6 +1,10 @@
 package distributions
 
 func Uniform(a, b float64, x []float64) []float64 {
+	if a >= b {
+		panic("Uniform: a must be less than b")
+	}
+
 	res := make([]float64, len(x))
 
 	for i, v := range x {

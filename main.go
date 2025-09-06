@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"lab/distributions"
 	"lab/graph"
+	"math"
 )
 
 const (
@@ -59,7 +60,7 @@ func Print(x, y []float64, expected_mean, expected_variance float64, continious 
 	fmt.Println("Expected variance:", expected_variance, "Calculated variance:", calculated_variance)
 
 	expectations_met := false
-	if (expected_mean-calculated_mean) < 0.1 && (expected_variance-calculated_variance) < 0.1 {
+	if math.Abs(expected_mean-calculated_mean) < 0.1 && math.Abs(expected_variance-calculated_variance) < 0.1 {
 		expectations_met = true
 	}
 
@@ -124,8 +125,7 @@ func plotPoisson(lambda float64) {
 	g := graph.NewGraph()
 	g.SetLineStyle(pline)
 
-	// kmax: choose a reasonable upper bound for support
-	kmax := int(lambda + 30)
+	kmax := int(N + 5)
 	poisson_x := graph.IntLinearArray(0, kmax)
 	poisson_y := distributions.Poisson(lambda, poisson_x)
 	g.Plot(poisson_x, poisson_y)
@@ -192,7 +192,7 @@ func plotNormal(mu, sigma2 float64) {
 }
 
 func plotPareto(x0, alpha float64) {
-	pareto_x := graph.LinearArray(x0, x0+8*alpha, inlen)
+	pareto_x := graph.LinearArray(0, 20, inlen)
 	pareto_y := distributions.Pareto(x0, alpha, pareto_x)
 
 	parline := graph.NewLS()

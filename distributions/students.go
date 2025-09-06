@@ -28,6 +28,10 @@ func Gamma(z float64) float64 {
 }
 
 func Students(alpha float64, x []float64) []float64 {
+	if alpha <= 0 {
+		panic("Student's t: degrees of freedom (nu) must be positive")
+	}
+
 	res := make([]float64, len(x))
 	for i, v := range x {
 		res[i] = (Gamma((alpha+1)/2) / (math.Sqrt(alpha*math.Pi) * Gamma(alpha/2))) * math.Pow(1+v*v/alpha, -(alpha+1)/2)

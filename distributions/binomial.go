@@ -2,23 +2,22 @@ package distributions
 
 import "math"
 
-func factorial(n float64) float64 {
-	int_n := int(n)
-	res := 1.0
+func factorial(n int) int {
+	res := 1
 
-	if int_n < 0 {
+	if n < 0 {
 		panic("factorial: negative input not allowed")
 	}
-	if int_n > 170 {
+	if n > 170 {
 		panic("factorial: input too large, would cause overflow")
 	}
 
-	if int_n == 0 || int_n == 1 {
+	if n == 0 || n == 1 {
 		return res
 	}
 
-	for i := 2; i <= int(n); i++ {
-		res *= float64(i)
+	for i := 2; i <= n; i++ {
+		res *= i
 	}
 
 	return res
@@ -32,10 +31,17 @@ func combination(n, k int) float64 {
 		return 1
 	}
 
-	return factorial(float64(n)) / (factorial(float64(k)) * factorial(float64(n-k)))
+	return float64(factorial(n)) / float64(factorial(k)*factorial(n-k))
 }
 
 func Binomial(n int, p float64, x []float64) []float64 {
+	if n < 0 {
+		panic("Binomial: n must be non-negative")
+	}
+	if p < 0 || p > 1 {
+		panic("Binomial: p must be in [0, 1]")
+	}
+
 	res := make([]float64, len(x))
 	for i, v := range x {
 		if v < 0 || v > float64(n) || math.Abs(v-math.Round(v)) > 1e-9 {

@@ -7,6 +7,10 @@ const (
 )
 
 func Bernoulli(p float64, x []float64) []float64 {
+	if p < 0 || p > 1 {
+		panic("Bernoulli: p must be in [0, 1]")
+	}
+
 	q := 1 - p
 
 	res := make([]float64, len(x))
